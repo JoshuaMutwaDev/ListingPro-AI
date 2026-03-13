@@ -148,6 +148,9 @@ button:hover {
     line-height: 1.5;
     color: #1f2937;
     transition: color 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 /* Added the empty state logic you noticed was missing */
@@ -193,4 +196,5 @@ button:hover {
 
 .hidden {
     display: none;
+
 }
