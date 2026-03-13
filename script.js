@@ -53,7 +53,7 @@ async function generateAd() {
         output.style.color = "#000";
         
         if (data.choices && data.choices[0]) {
-            let adText = data.choices[0].message.content;
+            let adText = data.choices[0].message.content.replace(/#/g, '');
             
             // --- GOOGLE MAPS LOGIC ---
             // Construct the official Google Maps Search URL
@@ -88,3 +88,4 @@ function copyAd(){
         setTimeout(() => { copyBtn.innerText = originalText; }, 2000);
     });
 }
+
