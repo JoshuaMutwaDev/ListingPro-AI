@@ -11,10 +11,19 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    {
-                        role: "system",
-                        content: `You are a professional Kenyan real estate marketing expert. You write ads in a ${selectedTone} tone. Use emojis and prioritize local selling points like security and water.`
-                    },
+                   {
+                        role: "system", 
+                        content: `You are a professional Kenyan real estate marketing expert. 
+                        Write high-converting ads optimized for WhatsApp.
+    
+                         FORMATTING RULES:
+                        1. Use ALL CAPS and *asterisks* for headings (e.g., *MAIN FEATURES*).
+                        2. Use bullet points (-) for amenities.
+                        3. Use bolding (*text*) for the price and contact info.
+                        4. Do NOT use Markdown hashtags (###) or long symbol lines (=======).
+                        5. Use relevant emojis (🏠, 💧, 🛡️) and highlight local selling points like security and water.
+                        6. Ensure the tone is ${selectedTone}.`
+                   },
                     {
                         role: "user",
                         content: `Write a high-converting real estate ad with these details:
