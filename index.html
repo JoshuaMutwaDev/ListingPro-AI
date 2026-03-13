@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ListingPro AI | Real Estate Ad Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>ListingPro AI</h1>
+    <p class="subtitle">Generate high-converting Nairobi property ads in seconds.</p>
+
+    <label for="toneSelect">Choose a Tone:</label>
+    <select id="toneSelect">
+        <option value="luxury real estate agent who uses fancy words">Luxury</option>
+        <option value="funny real estate agent who uses jokes">Funny</option>
+        <option value="professional agent who is brief and serious">Professional</option>
+        <option value="hype-beast agent who uses ALL CAPS and many emojis">Hype/Urgent</option>
+    </select>
+
+    <div class="details-grid">
+        <div class="input-group">
+            <label>Price (KES)</label>
+            <input type="text" id="price" placeholder="e.g. 85k/mo or 15M">
+        </div>
+        <div class="input-group">
+            <label>Location</label>
+            <input type="text" id="location" placeholder="e.g. Kilimani, Wood Avenue">
+        </div>
+    </div>
+
+    <label>Your WhatsApp/Phone</label>
+    <input type="tel" id="phone" placeholder="e.g. 0712 345 678">
+
+    <label>Main Amenities (Check all that apply):</label>
+    <div class="amenities-grid">
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Borehole Water"> Borehole</label>
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Backup Generator"> Generator</label>
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Gym"> Gym</label>
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Swimming Pool"> Pool</label>
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="CCTV & 24/7 Security"> Security</label>
+        <label class="checkbox-label"><input type="checkbox" class="amenity" value="High Speed Lifts"> Lifts</label>
+    </div>
+
+    <label>Additional House Details:</label>
+    <textarea id="userInput" placeholder="e.g. 3 bedroom all ensuite with a spacious DSQ and modern finishes"></textarea>
+    
+    <button id="genBtn" onclick="generateAd()">Generate Sales Ad</button>
+    
+    <div>
+        <div id="output" class="p-4 border rounded empty">Your generated ad will appear here...</div>
+        <div id="loader" class="loader"></div>
+        <div id="mapLinkContainer" class="hidden">
+         <label>Generated Map Link:</label>
+           <a id="mapLink" href="#" target="_blank" class="map-url">View on Google Maps 📍</a>
+        </div> 
+        <button id="copyBtn" class="hidden my-custom-btn" onclick="copyAd()">Copy to Clipboard</button>
+    </div>
+  </div>
+    <script src="script.js"></script>
+</body>
+</html>
