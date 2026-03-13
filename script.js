@@ -35,31 +35,16 @@ async function generateAd() {
     output.style.color = "#666";
 
     try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const response = await fetch("/api/generate", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile", 
-                messages: [
-                    {
-                        role: "system", 
-                        content: `You are a professional Kenyan real estate marketing expert. You write ads in a ${selectedTone} tone. Use emojis and prioritize local selling points like security and water.`
-                    },
-                    { 
-                        role: "user", 
-                        content: `Write a high-converting real estate ad with these details:
-                        - Details: ${input}
-                        - Location: ${location}
-                        - Price: ${price}
-                        - Key Amenities: ${amenities}
-                        - Contact Info: ${phone}
-                        
-                        Format with clear headings, bullet points for amenities, and a strong Call to Action. Ensure the price is prominent.`
-                    }
-                ]
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                selectedTone, 
+                input, 
+                location, 
+                price, 
+                amenities, 
+                phone 
             })
         });
 
