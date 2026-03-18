@@ -198,3 +198,19 @@ button:hover {
     display: none;
 
 }
+
+/* --- WhatsApp Specific Style --- */
+#whatsappBtn {
+    display: none; /* Hidden by default until ad is ready */
+    background: #25D366;
+    color: white;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+}
+
+#whatsappBtn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
