@@ -1,12 +1,12 @@
 async function generateAd() {
-    // 1. Capture all input values from your HTML
+    // 1. Capture all input values
     const input = document.getElementById('userInput').value;
     const price = document.getElementById('price').value;
     const location = document.getElementById('location').value;
     const phone = document.getElementById('phone').value;
     const selectedTone = document.getElementById("toneSelect").value;
     
-    // Get all checked amenities from the checkboxes
+    // Get all checked amenities
     const amenities = Array.from(document.querySelectorAll('.amenity:checked'))
                            .map(el => el.value)
                            .join(", ");
@@ -14,19 +14,21 @@ async function generateAd() {
     const output = document.getElementById('output');
     const loader = document.getElementById('loader');
     const copyBtn = document.getElementById('copyBtn');
-    const mapContainer = document.getElementById('mapLinkContainer');
+    const whatsappBtn = document.getElementById('whatsappBtn'); // Added this
+    const mapContainer = document.getElementById('mapContainer'); // Fixed ID
     const mapLink = document.getElementById('mapLink');
-    const locationValue =document.getElementById('location').value || "your";
+    const locationValue = location || "your";
 
-    // 2. Validation: Ensure description and location are present
+    // 2. Validation
     if(!input.trim() || !location.trim()){
         output.innerText = "Please provide at least a description and location.";
         output.classList.remove('empty');
         return;
     }
 
-    // 3. UI State: Start the "Loading" process
+    // 3. UI State: Start Loading
     copyBtn.classList.add("hidden");
+    whatsappBtn.style.display = "none"; // Hide WhatsApp while loading
     mapContainer.classList.add("hidden"); 
     loader.style.display = "block";
     output.innerText = `Analyzing property specs & optimizing for ${locationValue} market...`; 
@@ -51,21 +53,30 @@ async function generateAd() {
         output.style.color = "#000";
         
         if (data.choices && data.choices[0]) {
+            // Remove hashtags (#) which look messy in WhatsApp messages
             let adText = data.choices[0].message.content.replace(/#/g, '');
             
             // --- GOOGLE MAPS LOGIC ---
-            // Construct the official Google Maps Search URL
+            // Professional Search URL for Google Maps
             const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
             
             // Update the map link button UI
             mapLink.href = mapUrl;
             mapContainer.classList.remove('hidden');
 
-            // Append the map link to the ad text for easy copy-pasting
-            adText += `\n\n📍 Location Map: ${mapUrl}`;
+            // Final text for the ad
+            const finalAdText = adText + `\n\n📍 Location Map: ${mapUrl}`;
             
-            output.innerText = adText;
+            output.innerText = finalAdText;
             copyBtn.classList.remove('hidden');
+
+            // --- WHATSAPP LOGIC ---
+            whatsappBtn.style.display = "block"; // Show button
+            whatsappBtn.onclick = () => {
+                const encodedMsg = encodeURIComponent(finalAdText);
+                window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+            };
+
         } else {
             output.innerText = "Service temporarily busy. Please try again.";
         }
@@ -75,7 +86,7 @@ async function generateAd() {
     }
 }
 
-// Function to handle copying the generated ad to the clipboard
+// Function to handle copying
 function copyAd(){
     const text = document.getElementById("output").innerText;
     const copyBtn = document.getElementById("copyBtn");
@@ -86,4 +97,3 @@ function copyAd(){
         setTimeout(() => { copyBtn.innerText = originalText; }, 2000);
     });
 }
-
