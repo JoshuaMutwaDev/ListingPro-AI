@@ -1,4 +1,8 @@
 export default async function handler(req, res) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
+
     const { selectedTone, input, location, price, amenities, phone } = req.body;
 
     try {
@@ -19,9 +23,9 @@ export default async function handler(req, res) {
                          FORMATTING RULES:
                         1. Use ALL CAPS and *asterisks* for headings (e.g., *MAIN FEATURES*).
                         2. Use bullet points (-) for amenities.
-                        3. Use bolding (*text*) for the price and contact info.
-                        4. Do NOT use Markdown hashtags (###) or long symbol lines (=======).
-                        5. Use relevant emojis (🏠, 💧, 🛡️) and highlight local selling points like security and water.
+                        3. Use bolding (*text*) for the price and contact info using WhatsApp syntax (stars).
+                        4. Do NOT use Markdown hashtags (###) or long symbol lines.
+                        5. Use relevant emojis (🏠, 💧, 🛡️) and highlight local Nairobi selling points like 24/7 security and water reliability.
                         6. Ensure the tone is ${selectedTone}.`
                    },
                     {
@@ -32,15 +36,23 @@ export default async function handler(req, res) {
                         - Price: ${price}
                         - Key Amenities: ${amenities}
                         - Contact Info: ${phone}
-                        Format with clear headings, bullet points for amenities, and a strong Call to Action. Ensure the price is prominent.`
+                        Format with clear headings, bullet points, and a strong Call to Action. Ensure the price and phone number are prominent.`
                     }
-                ]
+                ],
+                temperature: 0.7 // Added for a balance of professional and creative
             })
         });
 
         const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Groq API Error:", data);
+            return res.status(response.status).json({ error: "AI service error" });
+        }
+
         res.status(200).json(data);
     } catch (error) {
+        console.error("Server Error:", error);
         res.status(500).json({ error: "Failed to connect to AI" });
     }
 }
