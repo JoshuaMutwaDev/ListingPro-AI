@@ -1,5 +1,3 @@
-const apiKey = "";
-
 async function generateAd() {
     // 1. Capture all input values from your HTML
     const input = document.getElementById('userInput').value;
