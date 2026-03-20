@@ -46,28 +46,29 @@ label {
     display: block;
     margin-bottom: 8px;
     color: #374151;
+    margin-top: 10px;
 }
 
-#toneSelect, textarea, input[type="text"], input[type="tel"] {
+#toneSelect, #propertyType, textarea, input[type="text"], input[type="tel"] {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #d1d5db;
-    font-size: 16px; /* Prevents mobile auto-zoom */
+    font-size: 16px; 
     box-sizing: border-box;
     margin-bottom: 15px;
     font-family: inherit;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-#toneSelect:focus, textarea:focus, input:focus {
+#toneSelect:focus, #propertyType:focus, textarea:focus, input:focus {
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
     outline: none;
 }
 
 textarea {
-    height: 120px;
+    height: 100px;
     resize: vertical;
 }
 
@@ -79,14 +80,18 @@ textarea {
 }
 
 .amenities-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
     background: #f9fafb;
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
     border: 1px solid #edf2f7;
+}
+
+/* This allows the sub-groups to display as a grid when active */
+.amenity-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .checkbox-label {
@@ -96,6 +101,7 @@ textarea {
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    margin-bottom: 0; /* Reset label margin inside grid */
 }
 
 input[type="checkbox"] {
@@ -132,52 +138,46 @@ button:hover {
     border-radius: 8px;
 }
 
-.my-custom-btn:hover {
-    background: #d1d5db;
-}
-
-/* --- Output Section & State Management --- */
+/* --- Output Section --- */
 #output {
     margin-top: 25px;
     padding: 18px;
-    background: #f9fafb;
+    background: #fdfdfd;
     border-radius: 10px;
     border-left: 4px solid #2563eb;
     white-space: pre-wrap;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.6;
     color: #1f2937;
-    transition: color 0.3s ease;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+    border: 1px solid #eee;
+    border-left: 5px solid #2563eb;
 }
 
-/* Added the empty state logic you noticed was missing */
 #output.empty {
     color: #9ca3af;
     font-style: italic;
+    border-left: 5px solid #d1d5db;
 }
 
 .map-url {
-    display: inline-block;
+    display: block;
+    text-align: center;
     color: #2563eb;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
     background: #eff6ff;
-    padding: 10px 14px;
+    padding: 12px;
     border-radius: 8px;
-    margin-top: 10px;
     border: 1px solid #bfdbfe;
 }
 
-.map-url:hover {
-    background: #dbeafe;
-    text-decoration: underline;
+/* --- Visibility Logic --- */
+.hidden {
+    display: none !important;
 }
 
-/* --- States & Animations --- */
+/* --- Loader --- */
 .loader {
     width: 30px;
     height: 30px;
@@ -194,23 +194,12 @@ button:hover {
     100% { transform: rotate(360deg); }
 }
 
-.hidden {
-    display: none;
-
-}
-
-/* --- WhatsApp Specific Style --- */
+/* --- WhatsApp Specific --- */
 #whatsappBtn {
-    display: none; /* Hidden by default until ad is ready */
     background: #25D366;
-    color: white;
-    margin-top: 15px;
-    border-radius: 10px;
     box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
 }
 
 #whatsappBtn:hover {
     background: #128C7E;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
 }
