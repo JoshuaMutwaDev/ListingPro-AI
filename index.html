@@ -11,12 +11,20 @@
     <h1>ListingPro AI</h1>
     <p class="subtitle">Generate high-converting Nairobi property ads in seconds.</p>
 
+    <label for="propertyType">What are you listing?</label>
+    <select id="propertyType" onchange="updateAmenities()">
+        <option value="Apartment">Apartment / Flat</option>
+        <option value="Standalone">Standalone House / Maisonette</option>
+        <option value="Plot">Plot / Land</option>
+    </select>
+
     <label for="toneSelect">Choose a Tone:</label>
     <select id="toneSelect">
-        <option value="luxury real estate agent who uses fancy words">Luxury</option>
-        <option value="funny real estate agent who uses jokes">Funny</option>
-        <option value="professional agent who is brief and serious">Professional</option>
-        <option value="hype-beast agent who uses ALL CAPS and many emojis">Hype/Urgent</option>
+        <option value="professional agent who is brief, serious, and focuses on facts">Professional (Brief & Serious)</option>
+        <option value="luxury real estate agent who uses sophisticated words and emphasizes elegance">Luxury (Premium/High-End)</option>
+        <option value="hype-beast agent who uses ALL CAPS, many emojis, and creates massive FOMO">Hype (Urgent/Hot Deal! 🔥)</option>
+        <option value="conversational agent who uses a friendly mix of English and simple Swahili (Sheng) like 'Hii ni deal poa'">Friendly/Conversational (The 'Bro' Tone)</option>
+        <option value="investment expert who focuses on rental yield, ROI, and capital growth">Investment/ROI (For Buyers/Investors)</option>
     </select>
 
     <div class="details-grid">
@@ -26,43 +34,62 @@
         </div>
         <div class="input-group">
             <label>Location</label>
-            <input type="text" id="location" placeholder="e.g. Kilimani, Wood Avenue">
+            <input type="text" id="location" placeholder="e.g. Kamakis, behind Makuti">
         </div>
     </div>
 
     <label>Your WhatsApp/Phone</label>
     <input type="tel" id="phone" placeholder="e.g. 0712 345 678">
 
-    <label>Main Amenities (Check all that apply):</label>
-    <div class="amenities-grid">
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Borehole Water"> Borehole</label>
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Backup Generator"> Generator</label>
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Gym"> Gym</label>
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="Swimming Pool"> Pool</label>
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="CCTV & 24/7 Security"> Security</label>
-        <label class="checkbox-label"><input type="checkbox" class="amenity" value="High Speed Lifts"> Lifts</label>
+    <label id="amenitiesLabel">Key Features (Check all that apply):</label>
+    <div id="amenitiesWrapper" class="amenities-grid">
+        
+        <div id="apartmentFeatures" class="amenity-group">
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Borehole Water"> Borehole</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Backup Generator"> Generator</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Gym & Pool"> Gym/Pool</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="High Speed Lifts"> Lifts</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="CCTV & 24/7 Security"> Security</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Private Balcony"> Balcony</label>
+        </div>
+
+        <div id="standaloneFeatures" class="amenity-group hidden">
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Private Garden"> Private Garden</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Detached DSQ"> DSQ</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Electric Fence"> Electric Fence</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Ample Parking (3+ cars)"> Ample Parking</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Study/Home Office"> Home Office</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Perimeter Wall"> Perimeter Wall</label>
+        </div>
+
+        <div id="plotFeatures" class="amenity-group hidden">
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Ready Title Deed"> Ready Title</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Water & Elec on-site"> Water/Elec</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Fenced/Beacons set"> Fenced</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Commercial Zoning"> Commercial</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Near Main Bypass"> Near Bypass</label>
+            <label class="checkbox-label"><input type="checkbox" class="amenity" value="Red Soil"> Red Soil</label>
+        </div>
     </div>
 
-    <label>Additional House Details:</label>
-    <textarea id="userInput" placeholder="e.g. 3 bedroom all ensuite with a spacious DSQ and modern finishes"></textarea>
+    <label>Additional Details (Unique Selling Points):</label>
+    <textarea id="userInput" placeholder="e.g. 5 mins walk to QuickMart, very quiet neighbors, or high rental income potential"></textarea>
     
     <button id="genBtn" onclick="generateAd()">Generate Sales Ad</button>
     
-    <button id="whatsappBtn" style="display:none; background-color: #25D366; color: white; margin-top: 10px; width: 100%; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
-        Send to WhatsApp 🟢
-    </button>
-    
     <div class="results-area">
-        <div id="output" class="p-4 border rounded empty">Your generated ad will appear here...</div>
-        
         <div id="loader" class="loader"></div>
-        
+        <div id="output" class="empty">Your generated ad will appear here...</div>
+
         <div id="mapContainer" class="hidden" style="margin-top: 15px;">
-            <label style="display:block; font-weight:bold; margin-bottom: 5px;">Property Map Link:</label>
             <a id="mapLink" href="#" target="_blank" class="map-url">View on Google Maps 📍</a>
         </div> 
 
-        <button id="copyBtn" class="hidden my-custom-btn" onclick="copyAd()" style="margin-top: 10px;">Copy to Clipboard</button>
+        <button id="copyBtn" class="hidden my-custom-btn" onclick="copyAd()">Copy to Clipboard</button>
+        
+        <button id="whatsappBtn" class="hidden" style="background-color: #25D366; color: white; margin-top: 10px; width: 100%; padding: 14px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+            Send to WhatsApp 🟢
+        </button>
     </div>
   </div>
   
