@@ -81,15 +81,15 @@ async function generateAd() {
             // Remove hashtags (#) which look messy in WhatsApp
             let adText = data.choices[0].message.content.replace(/#/g, '');
             
-            // --- GOOGLE MAPS LOGIC ---
-            // Creating a clean, searchable Google Maps link
-            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location + " Nairobi")}`;
-            
-            mapLink.href = mapUrl;
-            mapContainer.classList.remove('hidden');
-
-            // Final text for the ad
-            const finalAdText = adText + `\n\n📍 Location Map: ${mapUrl}`;
+        // --- GOOGLE MAPS LOGIC ---
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location + " Kenya")}`;
+        
+        // Update the button link so you still have the functionality
+        mapLink.href = mapUrl;
+        mapContainer.classList.remove('hidden');
+        
+        // Final text for the ad 
+        const finalAdText = adText; 
             
             output.innerText = finalAdText;
             copyBtn.classList.remove('hidden');
