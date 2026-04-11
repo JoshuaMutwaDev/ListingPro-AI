@@ -1,4 +1,11 @@
-// 1. Dynamic Amenities Logic: Shows/Hides based on Property Type
+// 1. Utility Functions
+function formatPrice(price) {
+    if (!price) return "";
+    // If they type 85000, it turns it into 85,000. If it has letters (15M), it leaves it alone.
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// 2. Dynamic Amenities Logic: Shows/Hides based on Property Type
 function updateAmenities() {
     const type = document.getElementById('propertyType').value;
     
@@ -23,10 +30,11 @@ function updateAmenities() {
 }
 
 async function generateAd() {
-    // 1. Capture all input values
+    // 1. Capture and format input values
     const propertyType = document.getElementById('propertyType').value;
     const selectedTone = document.getElementById("toneSelect").value;
-    const price = document.getElementById('price').value;
+    const rawPrice = document.getElementById('price').value;
+    const price = formatPrice(rawPrice); // Formats 1000000 to 1,000,000
     const location = document.getElementById('location').value;
     const phone = document.getElementById('phone').value;
     const userInput = document.getElementById('userInput').value; 
@@ -81,9 +89,8 @@ async function generateAd() {
             // Remove hashtags (#) which look messy in WhatsApp
             let adText = data.choices[0].message.content.replace(/#/g, '');
             
-            // --- GOOGLE MAPS LOGIC ---
-            // Fixed the syntax to use `${}` instead of `0{`
-            const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(location + " Kenya")}`;
+            // --- GOOGLE MAPS LOGIC (FIXED) ---
+            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location + ", Kenya")}`;
             
             mapLink.href = mapUrl;
             mapContainer.classList.remove('hidden');
@@ -92,7 +99,7 @@ async function generateAd() {
             const mapSuffix = `\n\n📍 View Location: ${mapUrl}`;
             const fullAdText = adText + mapSuffix; 
             
-            // Update the UI Box with ONLY the clean text (No link visible here)
+            // Update the UI Box with ONLY the clean text
             output.innerText = adText;
             copyBtn.classList.remove('hidden');
 
@@ -100,11 +107,10 @@ async function generateAd() {
             whatsappBtn.classList.remove('hidden');
             whatsappBtn.onclick = () => {
                 const encodedMsg = encodeURIComponent(fullAdText);
-                window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+                window.open(`https://wa.me/${phone.replace(/\s+/g, '')}?text=${encodedMsg}`, '_blank');
             };
 
             // --- OVERRIDE COPY BUTTON LOGIC ---
-            // We redefine the copy button here so it has access to 'fullAdText'
             copyBtn.onclick = () => {
                 navigator.clipboard.writeText(fullAdText).then(() => {
                     const originalText = copyBtn.innerText;
@@ -122,7 +128,7 @@ async function generateAd() {
     }
 }
 
-// Keep a backup simple copy function if needed, but the one inside generateAd is the main one
+// Global copy fallback
 function copyAd(){
     const text = document.getElementById("output").innerText;
     navigator.clipboard.writeText(text);
